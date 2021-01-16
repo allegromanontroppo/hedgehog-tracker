@@ -54,6 +54,7 @@ async function post(req, res) {
         },
       ],
       last: now,
+      count: doc.passages.length + 1,
     },
     { upsert: true }
   );
