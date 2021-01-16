@@ -24,11 +24,12 @@ async function get(req, res) {
 async function post(req, res) {
   const { location } = req.body;
   const afterMiddayFilter = { location, last: { $gte: timeAtMidday() } };
-  const now = new Date();
 
   const { db } = await connectToDatabase();
   // find record for today
   let doc = await db.collection(PASSAGES).findOne(afterMiddayFilter);
+
+  const now = new Date();
 
   if (!doc) {
     doc = {
