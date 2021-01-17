@@ -16,14 +16,18 @@ export default function Home() {
             <h2 className="text-lg leading-6 font-medium text-gray-900">Recent activities</h2>
           </div>
           <dl className="px-4 sm:px-6 py-1 border-t border-gray-200">
-            {(activities || []).map(({ location, last }) => (
-              <div className="bg-white py-5 sm:grid sm:grid-cols-3 sm:gap-4 -px-4 -sm:px-6" key={location}>
-                <dt className="-text-sm font-medium text-gray-700 capitalize">{location}</dt>
-                <dd className="text-gray-900 text-sm mt-1 sm:mt-0 sm:col-span-2">
-                  <ReactTimeAgo date={new Date(last)} locale="en" />
-                </dd>
-              </div>
-            ))}
+            {(activities || []).map(({ location, last }) => {
+              last = new Date(last);
+
+              return (
+                <div className="bg-white py-5 sm:grid sm:grid-cols-3 sm:gap-4 -px-4 -sm:px-6" key={location}>
+                  <dt className="-text-sm font-medium text-gray-700 capitalize">{location}</dt>
+                  <dd className="text-gray-900 text-sm mt-1 sm:mt-0 sm:col-span-2">
+                    <ReactTimeAgo date={last} locale="en" /> {last.toLocaleString()}
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
         </section>
       </main>

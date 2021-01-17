@@ -45,7 +45,7 @@ async function get(req, res) {
 }
 
 async function post(req, res) {
-  const { location } = req.body;
+  const { location, weather } = req.body;
   const afterMiddayFilter = { location, last: { $gte: timeAtMidday() } };
 
   const { db } = await connectToDatabase();
@@ -74,6 +74,7 @@ async function post(req, res) {
         {
           time: now,
           diff: timeDiff(doc.passages[doc.passages.length - 1]?.time || now),
+          weather,
         },
       ],
       last: now,
