@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactTimeAgo from 'react-time-ago';
+
 import Layout from '../components/layout';
 
 import useSWR from 'swr';
@@ -17,7 +19,9 @@ export default function Home() {
             {(activities || []).map(({ location, last }) => (
               <div className="bg-white py-5 sm:grid sm:grid-cols-3 sm:gap-4 -px-4 -sm:px-6" key={location}>
                 <dt className="-text-sm font-medium text-gray-700 capitalize">{location}</dt>
-                <dd className="text-gray-900 text-sm mt-1 sm:mt-0 sm:col-span-2">{new Date(last).toLocaleString()}</dd>
+                <dd className="text-gray-900 text-sm mt-1 sm:mt-0 sm:col-span-2">
+                  <ReactTimeAgo date={new Date(last)} locale="en" />
+                </dd>
               </div>
             ))}
           </dl>
