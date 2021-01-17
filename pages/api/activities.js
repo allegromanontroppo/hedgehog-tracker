@@ -2,6 +2,29 @@ import { connectToDatabase } from '../../util/mongodb';
 import { PASSAGES } from '../../util/collection-names';
 import { timeAtMidday, timeDiff } from '../../util/time-helpers';
 
+const LAST_ACTION_AGGREGATION = [
+  {
+    $group: {
+      _id: '$location',
+      last: {
+        $max: '$last',
+      },
+    },
+  },
+  {
+    $sort: {
+      last: -1,
+    },
+  },
+  {
+    $project: {
+      location: '$_id',
+      last: '$last',
+      _id: 0,
+    },
+  },
+];
+
 export default async (req, res) => {
   switch (req.method) {
     case 'POST':
@@ -16,9 +39,9 @@ export default async (req, res) => {
 
 async function get(req, res) {
   const { db } = await connectToDatabase();
-  const power = await db.collection(PASSAGES).aggregate(GET_AGGREGATION).toArray();
+  const lastAction = await db.collection(PASSAGES).aggregate(LAST_ACTION_AGGREGATION).toArray();
 
-  res.json(power);
+  res.json(lastAction);
 }
 
 async function post(req, res) {
